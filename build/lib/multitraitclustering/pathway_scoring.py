@@ -103,7 +103,7 @@ def uniqueness(df, axis = 0, score_lab = "combined_score"):
     mat_norm = mat - mat.min(0)
     i=0
     # Normalise each column
-    for m in mat.ptp(1):
+    for m in np.ptp(mat, 1):
         if m != 0:
             mat_norm[i] = mat_norm[i]/m
         i+=1
