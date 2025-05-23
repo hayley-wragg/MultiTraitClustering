@@ -154,6 +154,34 @@ class TestPathwayScoring(unittest.TestCase):
         self.assertTrue(isinstance(best_out["col_pairs"], list))
         # Check the number of rows equals the number of cols
         self.assertTrue(len(best_out["row_positions"])==len(best_out["col_pairs"]))
+        # Full pathway-cluster data should return a full best matches matrix
+        npaths = 10
+        nclusts = 6
+        npoints = npaths * nclusts
+        pathways = [f"pathway_{j}" for _ in range(nclusts) for j in range(npaths)]
+        cnums = [i for i in range(nclusts) for _ in range(npaths)]
+        scores = [random.random() for _ in range(npoints)]
+        df = pd.DataFrame(data = {"pathway": pathways,
+                                  "ClusterNumber": cnums,
+                                  "CombinedScore": scores})
+        best_out = ps.path_best_matches(df)
+        best_mat = best_out["best_df"].pivot(index='pathway', columns='ClusterNumber', values='CombinedScore')
+        non_zs = np.count_nonzero(best_mat.to_numpy())
+        self.assertTrue(non_zs==nclusts**2)
+        # Full pathway-cluster data should return a full best matches matrix
+        npaths = 10
+        nclusts = 6
+        npoints = npaths * nclusts
+        pathways = [f"pathway_{j}" for _ in range(nclusts) for j in range(npaths)]
+        cnums = [i for i in range(nclusts) for _ in range(npaths)]
+        scores = [random.random() for _ in range(npoints)]
+        df = pd.DataFrame(data = {"pathway": pathways,
+                                  "ClusterNumber": cnums,
+                                  "CombinedScore": scores})
+        best_out = ps.path_best_matches(df)
+        best_mat = best_out["best_df"].pivot(index='pathway', columns='ClusterNumber', values='CombinedScore')
+        non_zs = np.count_nonzero(best_mat.to_numpy())
+        self.assertTrue(non_zs==nclusts**2)
         # ---------------------
         # NEGATIVE CHECKS
         # TypeError if df not dataframe
