@@ -36,7 +36,7 @@ labels."""
 
 setup(
     name="multitraitclustering",
-    version="0.1.41",
+    version="0.1.43",
     author="Hayley Wragg",
     author_email="hayleywragg@hotmail.com",
     description="Applies clustering to GWAS data to identify pathways",
@@ -45,8 +45,8 @@ setup(
     packages=find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    license="MIT",
     python_requires=">=3.6",
 )
