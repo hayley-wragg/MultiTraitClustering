@@ -103,7 +103,7 @@ def uniqueness(df, axis = 0, score_lab = "combined_score"):
     mat_norm = mat - mat.min(0)
     i=0
     # Normalise each column
-    for m in mat.ptp(1):
+    for m in np.ptp(mat, 1):
         if m != 0:
             mat_norm[i] = mat_norm[i]/m
         i+=1
@@ -222,7 +222,7 @@ def overall_not_cropped_paths(df, score_lab = "CombinedScore"):
         error_string = f"""score_lab {score_lab} not col in df. Available cols: {str(df.columns)}"""
         raise KeyError(error_string)
     df_wide = df.pivot_table(index='pathway', columns='ClusterNumber', values=score_lab)
-    mat = np.nan_to_num(df_wide.to_numpy())
+    mat = df_wide.to_numpy()
     # Compute the best match matrix and get the corresponding indexes
     best_mat_out= path_best_matches(df, score_lab=score_lab)
     rows = best_mat_out["row_positions"]
@@ -311,7 +311,7 @@ def path_best_matches(df, score_lab = "CombinedScore"):
         error_string = f"""score_lab {score_lab} not col in df. Available cols: {str(df.columns)}"""
         raise KeyError(error_string)
     df_wide = df.pivot_table(index='pathway', columns='ClusterNumber', values=score_lab)
-    mat = np.nan_to_num(df_wide.to_numpy())
+    mat = df_wide.to_numpy()
     # Get the row number for the maximum in each column
     # For any repeated row numbers get the row number of the second highest
     # Repeat until square matrix (Cropped matrix)
